@@ -29,7 +29,8 @@ const Footer = () => {
         </div>
       </div>
       <div>
-        <hr />
+        <hr className="border-none h-[1px] bg-gray-200" />
+
         <p className="py-5 text-sm text-center text-gray-500 border-t border-gray-200">
           &copy; 2025{" "}
           <a
