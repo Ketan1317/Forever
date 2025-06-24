@@ -11,6 +11,8 @@ import axios from "axios";
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
 
+  const [loading,setLoading] = useState(false)
+
   const {
     backendUrl,
     token,
@@ -77,6 +79,7 @@ const PlaceOrder = () => {
 
       switch (method) {
         case "cod": {
+          setLoading(true)
           const response = await axios.post(
             `${backendUrl}/api/order/place`,
             orderData,
@@ -85,6 +88,7 @@ const PlaceOrder = () => {
           if (response.data?.success) {
             toast.success(response.data.message);
             setCartItems({});
+            setLoading(false)
             navigate("/orders");
           } else {
             toast.error(response.data?.message || "Failed to place order");
@@ -278,12 +282,16 @@ const PlaceOrder = () => {
           </div>
           <div className="w-full text-end mt-8">
             <button
-              type="submit"
-              className="text-white bg-black px-16 text-sm py-3"
-              disabled={!token}
-            >
-              PLACE ORDER
-            </button>
+        type="submit"
+        className={`text-white bg-black px-16 text-sm py-3 transition-colors duration-300 ${
+          loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-black cursor-pointer hover:bg-gray-800"
+        }`}
+        disabled={loading}
+      >
+        {loading ? "ADDING 🛒" : "ADD"}
+      </button>
           </div>
         </div>
       </div>
