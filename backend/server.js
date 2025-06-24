@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
 import "dotenv/config";
-import connectDatabase from "./config/mongodb.js";
+// import connectDatabase from "./config/mongodb.js";
 import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
@@ -22,6 +23,16 @@ app.use(cors());
 
 // Serve static files
 app.use("/static", express.static(path.join(__dirname, "public")));
+
+const connectDatabase = async () => {
+  try {
+    await mongoose.connect(`${process.env.MONGO_URI}/forever`);
+    console.log("MongoDB Connected");
+  } catch (error) {
+    console.error("MongoDB Connection Error:", error);
+    process.exit(1);
+  }
+};
 
 // Connect to MongoDB
 connectDatabase();
