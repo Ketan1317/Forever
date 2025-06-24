@@ -3,8 +3,13 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET)
+const createToken = (body) => {
+    const payload = {
+        _id: body._id,
+        name: body.name,
+        email: body.email
+    }
+    return jwt.sign(payload, process.env.JWT_SECRET)
 }
 
 // Route for user login
@@ -27,7 +32,7 @@ const loginUser = async (req, res) => {
             return res.json({ success: false, message: "Invalid credentials" })
         }
 
-        const token = createToken(user._id);
+        const token = createToken(user);
         res.json({ success: true, token })
 
     } catch (error) {
@@ -65,7 +70,7 @@ const registerUser = async (req, res) => {
             name, password: hashedPassword, email
         })
 
-        const token = createToken(newUser._id);
+        const token = createToken(newUser);
 
         res.json({ success: true, token })
 

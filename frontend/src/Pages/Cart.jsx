@@ -12,20 +12,22 @@ const Cart = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const temp = [];
-    for (const itemId in cartItems) {
-      for (const size in cartItems[itemId]) {
-        if (cartItems[itemId][size] > 0) {
-          temp.push({
-            _id: itemId,
-            size: size,
-            quantity: cartItems[itemId][size],
-          });
+    if (products.length > 0) {
+      const temp = [];
+      for (const itemId in cartItems) {
+        for (const size in cartItems[itemId]) {
+          if (cartItems[itemId][size] > 0) {
+            temp.push({
+              _id: itemId,
+              size: size,
+              quantity: cartItems[itemId][size],
+            });
+          }
         }
       }
+      setCartData(temp);
     }
-    setCartData(temp);
-  }, [cartItems]);
+  }, [cartItems,products]);
 
   return (
     <div className="border-t border-gray-200 pt-14">
@@ -45,7 +47,7 @@ const Cart = () => {
               key={index}
             >
               {/* Product Information */}
-              <div className="flex items-start gap-6"> 
+              <div className="flex items-start gap-6">
                 <img src={productData.image} className="w-16 sm:w-20" alt="" />
                 <div>
                   <p className="text-sm sm:text-lg font-medium">
@@ -92,7 +94,10 @@ const Cart = () => {
         <div className="w-full sm:w-[450px]">
           <CartTotal />
           <div className="w-full text-end">
-            <button onClick={() => navigate("/place-order")} className="bg-black text-white text-sm my-8 px-8 py-3 ">
+            <button
+              onClick={() => navigate("/place-order")}
+              className="bg-black text-white text-sm my-8 px-8 py-3 "
+            >
               PROCEED TO CHECKOUT
             </button>
           </div>

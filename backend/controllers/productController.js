@@ -12,9 +12,9 @@ const addProduct = async (req, res) => {
       price,
       category,
       subCategory,
-      sizes,
       bestseller,
     } = req.body;
+    const sizes = JSON.parse(req.body.sizes); // Parse sizes if sent as a JSON string
 
     const image1 = req.files?.image1?.[0];
     const image2 = req.files?.image2?.[0];
