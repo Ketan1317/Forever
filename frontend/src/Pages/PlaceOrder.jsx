@@ -93,23 +93,24 @@ const PlaceOrder = () => {
         }
 
         case "stripe": {
-          const responseStripe = await axios.post(
-            `${backendUrl}/api/order/stripe`,
-            orderData,
-            { headers: { token } }
-          );
-          if (responseStripe.data?.success) {
-            const { session_url } = responseStripe.data;
-            if (session_url) {
-              window.location.replace(session_url);
-            } else {
-              toast.error("Invalid session URL received from Stripe");
-              console.error("Stripe response:", responseStripe.data);
-            }
-          } else {
-            toast.error(responseStripe.data?.message || "Failed to initiate Stripe payment");
-            console.error("Stripe error response:", responseStripe.data);
-          }
+          toast.error("Stripe payment is not implemented yet")
+          // const responseStripe = await axios.post(
+          //   `${backendUrl}/api/order/stripe`,
+          //   orderData,
+          //   { headers: { token } }
+          // );
+          // if (responseStripe.data?.success) {
+          //   const { session_url } = responseStripe.data;
+          //   if (session_url) {
+          //     window.location.replace(session_url);
+          //   } else {
+          //     toast.error("Invalid session URL received from Stripe");
+          //     console.error("Stripe response:", responseStripe.data);
+          //   }
+          // } else {
+          //   toast.error(responseStripe.data?.message || "Failed to initiate Stripe payment");
+          //   console.error("Stripe error response:", responseStripe.data);
+          // }
           break;
         }
 
