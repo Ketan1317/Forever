@@ -14,24 +14,28 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000; // Use provided PORT
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 
 // Serve static files
 app.use("/static", express.static(path.join(__dirname, "public")));
 
+// Connect to MongoDB
 connectDatabase();
 
+// Routes
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
-app.use("/api/order",orderRouter)
+app.use("/api/order", orderRouter);
 
-
+// Health check endpoint
 app.get("/", (req, res) => {
   res.send("API WORKING");
 });
 
+// Start server
 app.listen(port, () => console.log(`Server Started At PORT: ${port}`));
